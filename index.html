@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Web Hộp Quà</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"> <!-- Thêm phông chữ Poppins -->
+    <style>
+     body {
+    font-family: 'Poppins', sans-serif; /* Phông chữ Poppins */
+    background-image: url('background.jpg'); /* Thay 'background.jpg' bằng đường dẫn ảnh nền của bạn */
+    background-size: cover; /* Giúp ảnh nền tự động phủ kín toàn bộ màn hình mà không bị méo */
+    background-position: center; /* Căn giữa ảnh nền */
+    background-attachment: fixed; /* Giúp ảnh nền giữ cố định khi cuộn trang */
+    margin: 0;
+    padding: 0;
+    color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+        /* Phần mở đầu */
+        .header {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 600;
+            color: #FF66B2; /* Màu hồng */
+            line-height: 1.4;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        /* Phần thân với các hộp quà */
+        .gift-container {
+            display: flex;
+            justify-content: center; /* Căn giữa */
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        /* Hộp quà sắp xếp theo hàng ngang 3 hộp */
+        .gift-boxes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 hộp quà mỗi hàng */
+            gap: 40px; /* Khoảng cách giữa các hộp quà */
+            max-width: 1200px;
+            width: 100%;
+            justify-items: center; /* Căn giữa các hộp quà */
+        }
+
+        .gift-box {
+            display: flex;
+            width: 300px; /* Chiều rộng của hộp quà (hình vuông) */
+            height: 350px; /* Chiều cao của hộp quà */
+            background-color: #f2f2f2;
+            color: #333;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            overflow: hidden;
+            padding: 20px;
+            justify-content: center; /* Căn giữa tất cả nội dung */
+            align-items: center; /* Căn giữa tất cả nội dung */
+            flex-direction: column;
+            position: relative;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.05);
+        }
+
+        .gift-box img {
+            width: 200px; /* Đảm bảo ảnh vuông */
+            height: 200px; /* Đảm bảo ảnh vuông */
+            object-fit: contain; /* Giữ tỷ lệ ảnh gốc, không bị cắt xén */
+            display: none; /* Ảnh ban đầu ẩn */
+            margin-bottom: 10px; /* Khoảng cách giữa ảnh và chú thích */
+        }
+
+        .gift-box p {
+            font-size: 0.9em; /* Giảm kích thước chữ để có thể viết nhiều hơn */
+            font-weight: 600;
+            margin-top: 10px; /* Khoảng cách giữa ảnh và chú thích */
+            display: none; /* Nội dung ban đầu ẩn */
+            line-height: 1.5;
+            text-align: center; /* Căn giữa nội dung chú thích */
+            max-width: 250px; /* Giới hạn chiều rộng để nội dung không quá dài */
+            overflow-wrap: break-word; /* Đảm bảo các dòng chú thích không bị kéo dài quá */
+        }
+
+        /* Chú thích phần bên ngoài hộp quà */
+        .gift-box .label {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            cursor: pointer;
+            position: absolute;
+            top: 50%; /* Đặt dòng chữ ở giữa theo chiều dọc */
+            left: 50%; /* Đặt dòng chữ ở giữa theo chiều ngang */
+            transform: translate(-50%, -50%); /* Căn giữa chính xác */
+            text-align: center;
+            white-space: nowrap; /* Ngăn dòng chữ dài quá */
+        }
+
+        /* Phần cuối */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #333;
+            color: white;
+            margin-top: auto; /* Đẩy phần cuối xuống dưới cùng */
+        }
+
+        .footer p {
+            font-size: 1.5em;
+        }
+
+        /* Thanh trượt toàn trang */
+        html, body {
+            height: 100%;
+            overflow-y: auto; /* Cho phép cuộn toàn trang */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Phần mở đầu -->
+    <div class="header">
+        <h1>Vậy là mình bên nhau được 5 năm rồi em nhỉ.<br> Cùng anh nhìn lại chặng đường mình đã trải qua nhé</h1>
+    </div>
+
+    <!-- Phần thân với các hộp quà -->
+    <div class="gift-container">
+        <div class="gift-boxes">
+            <!-- Hộp quà 1 -->
+            <div class="gift-box" id="gift-box-1" onclick="toggleContent(1)">
+                <div class="label" id="label-1">Ấn vào đây <br> nè cậu</div>
+                <img id="gift-img-1" src="image1.jpg" alt="Hình ảnh 1"> <!-- Thay 'image1.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-1">Hình ảnh công chúa bé bỏng của ai đấy nhỉ. Chắc bất ngờ lắm he. Anh lục lại ảnh tự dưng thấy tấm này nè cậu iu. Giờ xinh đẹp quá, nhìn không nhận ra luôn</p>
+            </div>
+
+            <!-- Hộp quà 2 -->
+            <div class="gift-box" id="gift-box-2" onclick="toggleContent(2)">
+                <div class="label" id="label-2">Bất ngờ tiếp <br> nè cậu</div>
+                <img id="gift-img-2" src="image2.jpg" alt="Hình ảnh 2"> <!-- Thay 'image2.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-2">Hihi góc nhìn quen thuộc của ai đây ta. May quá, nhờ nhà trường tạo "điều kiện", xếp lớp mà giờ mình mới được bên nhau em nhỉ</p>
+            </div>
+
+            <!-- Hộp quà 3 -->
+            <div class="gift-box" id="gift-box-3" onclick="toggleContent(3)">
+                <div class="label" id="label-3">Tiếp đi cậu</div>
+                <img id="gift-img-3" src="image3.jpg" alt="Hình ảnh 3"> <!-- Thay 'image3.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-3">Tấm hình đầu tiên của hai đứa em nhỉ. Đúng ngày Lễ trường thành của anh năm 2018. Không hiểu sao lần đầu đứng cạnh em mà anh lại run ta</p>
+            </div>
+
+            <!-- Hộp quà 4 -->
+            <div class="gift-box" id="gift-box-4" onclick="toggleContent(4)">
+                <div class="label" id="label-4">Cứ mở nhé <br> còn tiếp nè</div>
+                <img id="gift-img-4" src="image4.jpg" alt="Hình ảnh 4"> <!-- Thay 'image4.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-4">Em nhớ tấm này không ta. Đây là chuyến xe buýt đầu tiên a bắt xuống chỗ em hôm 05.07.2020. Ngồi trên xe mà cảm giác trong lòng cứ nôn nao</p>
+            </div>
+
+            <!-- Hộp quà 5 -->
+            <div class="gift-box" id="gift-box-5" onclick="toggleContent(5)">
+                <div class="label" id="label-5">Cho cậu mở <br> mỏi tay luôn</div>
+                <img id="gift-img-5" src="image5.jpg" alt="Hình ảnh 5"> <!-- Thay 'image5.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-5">Nhớ hôm 05.07.2020 đi hồ Tây anh tỏ tình nhưng em chưa đồng ý. May sao hôm 07.07 em đăng caption ẩn ý, không thì a chắc suy luôn quá</p>
+            </div>
+
+            <!-- Hộp quà 6 -->
+            <div class="gift-box" id="gift-box-6" onclick="toggleContent(6)">
+                <div class="label" id="label-6">Đếm xem bao nhiêu <br> tấm rồi nè</div>
+                <img id="gift-img-6" src="image6.jpg" alt="Hình ảnh 6"> <!-- Thay 'image6.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-6"> tấm này em chụp hôm 14.02.2021 nhưng a không tỏ tình, mãi đến ngày 17.02.2021 đúng ngày anh lên xe về trường mình nói chuyện hai đứa mới chính thức quen nhau em nhỉ</p>
+            </div>
+
+            <!-- Hộp quà 7 -->
+            <div class="gift-box" id="gift-box-7" onclick="toggleContent(7)">
+                <div class="label" id="label-7">1 tấm nè</div>
+                <img id="gift-img-7" src="image7.jpg" alt="Hình ảnh 7"> <!-- Thay 'image7.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-7">Hồi ấy em hay sử dụng icon này lắm nè. Xong a đi hiến máu xin bằng được con này về cho em. Không biết giờ em nó đâu rồi</p>
+            </div>
+
+            <!-- Hộp quà 8 -->
+            <div class="gift-box" id="gift-box-8" onclick="toggleContent(8)">
+                <div class="label" id="label-8">2 tấm nè</div>
+                <img id="gift-img-8" src="image8.jpg" alt="Hình ảnh 8"> <!-- Thay 'image8.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-8">Sinh nhật đầu tiên anh có em. Hôm ấy anh bất ngờ vô cùng á. Em nhờ anh Cảnh đưa vào cho anh nữa chứ. Bánh ngon vô cùng </p>
+            </div>
+
+            <!-- Hộp quà 9 -->
+            <div class="gift-box" id="gift-box-9" onclick="toggleContent(9)">
+                <div class="label" id="label-9">3 tấm nè</div>
+                <img id="gift-img-9" src="image9.jpg" alt="Hình ảnh 9"> <!-- Thay 'image9.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-9">Sinh nhật của em nè. Cái này cạnh trường anh nhỉ. Hồi ấy anh xin ra ngoài được có xíu, hai đứa vi vu rồi lại về</p>
+            </div>
+
+            <!-- Hộp quà 10 -->
+            <div class="gift-box" id="gift-box-10" onclick="toggleContent(10)">
+                <div class="label" id="label-10">4 tấm nè</div>
+                <img id="gift-img-10" src="image10.jpg" alt="Hình ảnh 10"> <!-- Thay 'image10.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-10">Chuỗi ngày học viên hai đứa ngồi trong căn phòng quen thuộc em nhỉ. Cơm trường anh thì khó nuốt, nhưng em lần nào lên cũng đòi ăn vì sợ anh tốn tiền</p>
+            </div>
+
+            <!-- Hộp quà 11 -->
+            <div class="gift-box" id="gift-box-11" onclick="toggleContent(11)">
+                <div class="label" id="label-11">5 tấm nè</div>
+                <img id="gift-img-11" src="image11.jpg" alt="Hình ảnh 11"> <!-- Thay 'image11.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-11">Ngày ấy anh hay được em ship đồ ăn cho nhỉ. Chỉ những lần gặp ngắn ngủi. Các bạn anh ăn quà của em riết thành quen.</p>
+            </div>
+
+            <!-- Hộp quà 12 -->
+            <div class="gift-box" id="gift-box-12" onclick="toggleContent(12)">
+                <div class="label" id="label-12">Còn nhiều lắm cậu</div>
+                <img id="gift-img-12" src="image12.jpg" alt="Hình ảnh 12"> <!-- Thay 'image12.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-12">Hồi học viên chỉ mong cuối tuần được gặp em. Muốn ra ngoài nhunwng cũng không được bao lâu. Thế là phòng khách thành chỗ em chợp mắt suốt</p>
+            </div>
+
+            <!-- Hộp quà 13 -->
+            <div class="gift-box" id="gift-box-13" onclick="toggleContent(13)">
+                <div class="label" id="label-13">Để tớ đếm chuẩn nè</div>
+                <img id="gift-img-13" src="image13.jpg" alt="Hình ảnh 13"> <!-- Thay 'image13.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-13">May mắn sao hồi ấy anh học có em đồng hành cùng. Nhờ có em nên anh hay làm mày, ráng ráng tập trung học các kiểu. Nhờ thế điểm cũng cao hehe</p>
+            </div>
+
+            <!-- Hộp quà 14 -->
+            <div class="gift-box" id="gift-box-14" onclick="toggleContent(14)">
+                <div class="label" id="label-14">Đây tấm 14 rồi</div>
+                <img id="gift-img-14" src="image14.jpg" alt="Hình ảnh 14"> <!-- Thay 'image14.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-14">Món quà em mua cho anh. Nhưng tay anh không có duyên hay sao ấy. Chăm được một đợt xong xác xơ luôn. Khóccccc</p>
+            </div>
+
+            <!-- Hộp quà 15 -->
+            <div class="gift-box" id="gift-box-15" onclick="toggleContent(15)">
+                <div class="label" id="label-15">15 nè</div>
+                <img id="gift-img-15" src="image15.jpg" alt="Hình ảnh 15"> <!-- Thay 'image15.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-15">lại view quen thuộc nè cậu iu. Có dịp cậu mà không xuống, cả tuần tớ mất động lực luôn, chả buồn làm gì, học không, thể thao không</p>
+            </div>
+
+            <!-- Hộp quà 16 -->
+            <div class="gift-box" id="gift-box-16" onclick="toggleContent(16)">
+                <div class="label" id="label-16">16 nè</div>
+                <img id="gift-img-16" src="image16.jpg" alt="Hình ảnh 16"> <!-- Thay 'image16.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-16">Kaka báo thủ covid nè cậu. Nhớ hồi tớ bị covid mọi người đi test quá trời. Hết bạn bè, thầy cô, gia đình kaka. May tớ bị trên xe, không lây cho cậu</p>
+            </div>
+
+            <!-- Hộp quà 17 -->
+            <div class="gift-box" id="gift-box-17" onclick="toggleContent(17)">
+                <div class="label" id="label-17">17 nè</div>
+                <img id="gift-img-17" src="image17.jpg" alt="Hình ảnh 17"> <!-- Thay 'image17.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-17">Hên nhỉ. Tết đầu tiên mình bên nhau. Xong đi tất niên lớp 2 đứa lại tổ chức cùng quán. Thế là được ra mắt lun kaka</p>
+            </div>
+
+            <!-- Hộp quà 18 -->
+            <div class="gift-box" id="gift-box-18" onclick="toggleContent(18)">
+                <div class="label" id="label-18">18 nè</div>
+                <img id="gift-img-18" src="image18.jpg" alt="Hình ảnh 18"> <!-- Thay 'image18.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-18">Hồi ấy đi học, cậu thích đi chụp ảnh lắm. Mỗi lần cậu chụp, tớ lại hí hửng lưu ảnh về. Cậu lại hay xóa ảnh nữa chứ</p>
+            </div>
+
+            <!-- Hộp quà 19 -->
+            <div class="gift-box" id="gift-box-19" onclick="toggleContent(19)">
+                <div class="label" id="label-19">19 nè</div>
+                <img id="gift-img-19" src="image19.jpg" alt="Hình ảnh 19"> <!-- Thay 'image19.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-19">Hồi đi học, tớ hay nghĩ đến cậu lắm á. Có nhiều hôm, chỉ mong ra chơi xuống cầu thang để bấm điện thoại nhắn tin với cậu. Mà cậu mãi hơn 8 giờ mới dậy</p>
+            </div>
+
+            <!-- Hộp quà 20 -->
+            <div class="gift-box" id="gift-box-20" onclick="toggleContent(20)">
+                <div class="label" id="label-20">20 rồi ta</div>
+                <img id="gift-img-20" src="image20.jpg" alt="Hình ảnh 20"> <!-- Thay 'image20.jpg' bằng đường dẫn ảnh của bạn -->
+                <p id="gift-text-20">Ngày Lễ tốt nghiệp của chị Yến. Hôm ấy anh thợ ảnh chụp cho 2 đứa mà cứ ngỡ ảnh cưới em nhỉ</p>
+            </div>
+
+	<!-- Hộp quà 21 -->
+<div class="gift-box" id="gift-box-21" onclick="toggleContent(21)">
+    <div class="label" id="label-21">Tiếp đi cậu iu</div>
+    <img id="gift-img-21" src="image21.jpg" alt="Hình ảnh 21"> <!-- Thay 'image21.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-21">Này hồi em cùng hội cựu tổ chức giải bóng đá. Anh thì hóng mãi để hai đứa đi chơi. Suýt dỗi kaka</p>
+</div>
+
+<!-- Hộp quà 22 -->
+<div class="gift-box" id="gift-box-22" onclick="toggleContent(22)">
+    <div class="label" id="label-22">Còn nhiều lắm nhé</div>
+    <img id="gift-img-22" src="image22.jpg" alt="Hình ảnh 22"> <!-- Thay 'image22.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-22">Hôm ấy 2 đứa mặc đồ tông xiệc tông ghê nhỉ. Đợt ấy chụp 1 loạt luôn nhỉ. Anh nhớ về nhiều bức chụp đợt này lắm á hehe</p>
+</div>
+
+<!-- Hộp quà 23 -->
+<div class="gift-box" id="gift-box-23" onclick="toggleContent(23)">
+    <div class="label" id="label-23">hehe mỏi tay chưa</div>
+    <img id="gift-img-23" src="image23.jpg" alt="Hình ảnh 23"> <!-- Thay 'image23.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-23">Nhớ nhé, đăng ký kết hôn rồi đấy. Ký kết hết rồi đấy. Đừng hòng anh ký đơn ly hôn</p>
+</div>
+
+<!-- Hộp quà 24 -->
+<div class="gift-box" id="gift-box-24" onclick="toggleContent(24)">
+    <div class="label" id="label-24">cố lên, còn dài lắm</div>
+    <img id="gift-img-24" src="image24.jpg" alt="Hình ảnh 24"> <!-- Thay 'image24.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-24">Hộ tống cô nương ra Hà Nội học. Quá trời là đồ luôn em nhỉ</p>
+</div>
+
+<!-- Hộp quà 25 -->
+<div class="gift-box" id="gift-box-25" onclick="toggleContent(25)">
+    <div class="label" id="label-25">đoán xem có gì nào</div>
+    <img id="gift-img-25" src="image25.jpg" alt="Hình ảnh 25"> <!-- Thay 'image25.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-25">Ngày lớp anh chụp kỷ yếu ra trường. Giờ nhìn tấm này em vẫn hay bảo anh là sao anh không chỉ em chào. Làm em chào xấu. Dịp nào về làm lại nhé cậu</p>
+</div>
+
+<!-- Hộp quà 26 -->
+<div class="gift-box" id="gift-box-26" onclick="toggleContent(26)">
+    <div class="label" id="label-26">Lộn xộn time tý nhé</div>
+    <img id="gift-img-26" src="image26.jpg" alt="Hình ảnh 26"> <!-- Thay 'image26.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-26">Ngày 2 đứa đi cafe chỗ Thụ Lộc. Nói đủ thứ chuyện trên đời. Không hiểu sao lúc về e bị nhói chân nhỉ. Ngày ấy em hay bị nhói chân cực kỳ.Trộm vía bây giờ ít rồi</p>
+</div>
+
+<!-- Hộp quà 27 -->
+<div class="gift-box" id="gift-box-27" onclick="toggleContent(27)">
+    <div class="label" id="label-27">tiếp đi cậu</div>
+    <img id="gift-img-27" src="image27.jpg" alt="Hình ảnh 27"> <!-- Thay 'image27.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-27">Ngày 2 đứa đi ăn nướng trong thành phố Hà Tĩnh. Ăn xong dính trời mưa, ướt như chuột lột vẫn phi về em nhỉ. Giờ muốn người ngồi lượn mưa cũng không có. Sau bù nhé</p>
+</div>
+
+<!-- Hộp quà 28 -->
+<div class="gift-box" id="gift-box-28" onclick="toggleContent(28)">
+    <div class="label" id="label-28">xem tiếp nè</div>
+    <img id="gift-img-28" src="image28.jpg" alt="Hình ảnh 28"> <!-- Thay 'image28.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-28">Chỉ muốn đưa em ra mắt tất cả mọi người. Bạn bè anh, người thân anh, gia đình anh em. Đây hôm đến nhà chú Dưỡng, anh say bí tỷ</p>
+</div>
+
+<!-- Hộp quà 29 -->
+<div class="gift-box" id="gift-box-29" onclick="toggleContent(29)">
+    <div class="label" id="label-29">29 rồi. Mới nửa <br> chặng đường thôi cậu</div>
+    <img id="gift-img-29" src="image29.jpg" alt="Hình ảnh 29"> <!-- Thay 'image29.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-29">Đây là hôm tớ nghỉ chờ lên 700 nè. Cùng cậu qua VinUni xem cuộc thi Future Blue Innovation. Đăng lên ai cùng bình luận đôi dép không kaka</p>
+</div>
+
+<!-- Hộp quà 30 -->
+<div class="gift-box" id="gift-box-30" onclick="toggleContent(30)">
+    <div class="label" id="label-30">30 rồi nè</div>
+    <img id="gift-img-30" src="image30.jpg" alt="Hình ảnh 30"> <!-- Thay 'image30.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-30">Từ ngày có người yêu, trộm vía chịu khó chăm chút hơn, da mặt cũng sáng lên hơn em nhỉ. Hihi. Giờ không ai chăm cho, xấu qué </p>
+</div>
+
+<!-- Hộp quà 31 -->
+<div class="gift-box" id="gift-box-31" onclick="toggleContent(31)">
+    <div class="label" id="label-31">đố cậu <br> bao nhiêu tấm rồi</div>
+    <img id="gift-img-31" src="image31.jpg" alt="Hình ảnh 31"> <!-- Thay 'image31.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-31">Tấm này tớ thích vô cùng. Kiểu nhìn tình cảm, mà hơn nữa được chụp ngay ở nhà cậu nữa chứ. Như được bật đèn xanh</p>
+</div>
+
+<!-- Hộp quà 32 -->
+<div class="gift-box" id="gift-box-32" onclick="toggleContent(32)">
+    <div class="label" id="label-32">32 rồi nè</div>
+    <img id="gift-img-32" src="image32.jpg" alt="Hình ảnh 32"> <!-- Thay 'image32.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-32">Thế là chuỗi ngày 700 bắt đầu nè. Say xe buýt nhưng vẫn đi tận mấy tiếng để lên cùng tớ. Hic, nhớ những ngày ây quá</p>
+</div>
+
+<!-- Hộp quà 33 -->
+<div class="gift-box" id="gift-box-33" onclick="toggleContent(33)">
+    <div class="label" id="label-33">33</div>
+    <img id="gift-img-33" src="image33.jpg" alt="Hình ảnh 33"> <!-- Thay 'image33.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-33">Hôn nhau từ lúc cầu vai anh còn đỏ, giờ đổi màu, đổi địa điểm nhưng hai trái tim vẫn không đổi em nhỉ. Phòng tiếp khách 700 cũng thanfyh chốn quen</p>
+</div>
+
+<!-- Hộp quà 34 -->
+<div class="gift-box" id="gift-box-34" onclick="toggleContent(34)">
+    <div class="label" id="label-34">34</div>
+    <img id="gift-img-34" src="image34.jpg" alt="Hình ảnh 34"> <!-- Thay 'image34.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-34">Đây bộ ảnh Couple đầu tiên em nhỉ. Hồi noel náo nức đi chụp. Người chụp ảnh lại hay trêu là tiểu tam nữa chứ. Giờ nghĩ lại nhớ hồi ấy ghê</p>
+</div>
+
+<!-- Hộp quà 35 -->
+<div class="gift-box" id="gift-box-35" onclick="toggleContent(35)">
+    <div class="label" id="label-35">35 rồi nè</div>
+    <img id="gift-img-35" src="image35.jpg" alt="Hình ảnh 35">
+    <p id="gift-text-35">Hồi 700, cũng chỉ mong cuối tuần được tranh thủ để xuống vivu cùng em. Hôm ấy đi lượn Hồ Tây nhưng 2 đứa ở cương vị khác rồi nhỉ</p>
+</div>
+
+<!-- Hộp quà 36 -->
+<div class="gift-box" id="gift-box-36" onclick="toggleContent(36)">
+    <div class="label" id="label-36">36</div>
+    <img id="gift-img-36" src="image36.jpg" alt="Hình ảnh 36">
+    <p id="gift-text-36">Xuống chơi thì vui, chờ cả tuần thì lâu quá trời. Mà xuống em chơi thì thấy vèo cái hết 2 ngày. Đây hôm chờ buýt từ Hà Đông về 700</p>
+</div>
+
+<!-- Hộp quà 37 -->
+<div class="gift-box" id="gift-box-37" onclick="toggleContent(37)">
+    <div class="label" id="label-37">37 rồi nè</div>
+    <img id="gift-img-37" src="image37.jpg" alt="Hình ảnh 37">
+    <p id="gift-text-37">Ngày sinh nhật em năm 2023. Đúng hôm ấy anh học lái xe lại phải thi, thế là phải chờ mãi mới về, vội vàng phi 60 cây về gia lâm. Xong lại bị dỗi do chữ trên bánh chứ. Tý dỗi lại em kaka</p>
+</div>
+
+<!-- Hộp quà 38 -->
+<div class="gift-box" id="gift-box-38" onclick="toggleContent(38)">
+    <div class="label" id="label-38">Hơn nửa chặng đường rồi</div>
+    <img id="gift-img-38" src="image38.jpg" alt="Hình ảnh 38">
+    <p id="gift-text-38">Người đàn ông hạnh phúc. Hai tay hai vợ. Trộm vía hồi 700 mọi người dễ thương, dễ mến. Giờ vẫn nhớ khoảng thời gian ấy</p>
+</div>
+
+<!-- Hộp quà 39 -->
+<div class="gift-box" id="gift-box-39" onclick="toggleContent(39)">
+    <div class="label" id="label-39">Đoán xem đi đâu ta</div>
+    <img id="gift-img-39" src="image39.jpg" alt="Hình ảnh 39">
+    <p id="gift-text-39">Chuyến foodtour Hải Phòng nè. Đi chơi mà ngỡ như đi ăn không trời. Đi đợt này về xong bị lo sốt vó. Xong chuyến này a cũng chuẩn bị về Sài Gòn nhỉ</p>
+</div>
+
+<!-- Hộp quà 40 -->
+<div class="gift-box" id="gift-box-40" onclick="toggleContent(40)">
+    <div class="label" id="label-40">40 nè</div>
+    <img id="gift-img-40" src="image40.jpg" alt="Hình ảnh 40">
+    <p id="gift-text-40">Hồi cậu vào Sài Gòn, nhưng vào chưa được bao lâu thì tớ lại phải ra Hà Nội công tác, nghĩ ông trời trêu ngươi ha. Cho đến với nhau xong lại bắt yêu xa quá trời</p>
+</div>
+
+<!-- Hộp quà 41 -->
+<div class="gift-box" id="gift-box-41" onclick="toggleContent(41)">
+    <div class="label" id="label-41">41 ròi cậu</div>
+    <img id="gift-img-41" src="image41.jpg" alt="Hình ảnh 41">
+    <p id="gift-text-41">Đi đâu cũng gọi cho nhau cậu nhỉ. Gọi nhiều đến mức mọi người giật mình mà. Bây giờ hai đứa nói chia tay ai tin được không ta</p>
+</div>
+
+<!-- Hộp quà 42 -->
+<div class="gift-box" id="gift-box-42" onclick="toggleContent(42)">
+    <div class="label" id="label-42">42 nè</div>
+    <img id="gift-img-42" src="image42.jpg" alt="Hình ảnh 42">
+    <p id="gift-text-42">Ngày tớ chuẩn bị đi Hà Nội công tác. Thế là vội vàng sắp xếp thời gian để cùng cậu có chuyến du lịch. Nghĩ lại ngồi xe máy ê cả đít. May sao tớ chụp ảnh xuất thần nên bù lại</p>
+</div>
+
+<!-- Hộp quà 43 -->
+<div class="gift-box" id="gift-box-43" onclick="toggleContent(43)">
+    <div class="label" id="label-43">43 nè</div>
+    <img id="gift-img-43" src="image43.jpg" alt="Hình ảnh 43">
+    <p id="gift-text-43">Hehe Hết Vũng Tàu lại đến Dinh Độc Lập. Trước ngày tớ đi lại tích cực chạy KPI quá cậu nhỉ.</p>
+</div>
+
+<!-- Hộp quà 44 -->
+<div class="gift-box" id="gift-box-44" onclick="toggleContent(44)">
+    <div class="label" id="label-44">44 nè cậu</div>
+    <img id="gift-img-44" src="image44.jpg" alt="Hình ảnh 44">
+    <p id="gift-text-44">Cái này hơn lộn thời gian tý. Nhưng tớ thích cậu mặc kiểu váy này lắm ạ. Nhìn kiểu cuốn hút, nhẹ nhàng mà hấp dẫn, xinh đẹp cực kỳ cậu ạ</p>
+</div>
+
+<!-- Hộp quà 45 -->
+<div class="gift-box" id="gift-box-45" onclick="toggleContent(45)">
+    <div class="label" id="label-45">45 nè</div>
+    <img id="gift-img-45" src="image45.jpg" alt="Hình ảnh 45"> <!-- Thay 'image45.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-45">Ảnh mặc đồ xinh nên thêm nữa nhé. Ảnh xinh nên tớ sẽ thêm lần này nữa kaka</p>
+</div>
+
+<!-- Hộp quà 46 -->
+<div class="gift-box" id="gift-box-46" onclick="toggleContent(46)">
+    <div class="label" id="label-46">46 ròi cậu</div>
+    <img id="gift-img-46" src="image46.jpg" alt="Hình ảnh 46"> <!-- Thay 'image46.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-46">Đúng trước hôm sinh nhật tuổi 24 của em. May sao anh đi công tác Kiên Giang nhưng xin được về đúng dịp. Hehe không bỏ lỡ sinh nhật người yêu, mừng quá trời</p>
+</div>
+
+<!-- Hộp quà 47 -->
+<div class="gift-box" id="gift-box-47" onclick="toggleContent(47)">
+    <div class="label" id="label-47">47 rồi nèu</div>
+    <img id="gift-img-47" src="image47.jpg" alt="Hình ảnh 47"> <!-- Thay 'image47.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-47">Chuỗi ngày lênh đênh trên biển. Lòng anh vẫn nặng trĩu nghĩ về em. Chỉ mong sao sớm được về với em. Mỗi ngày may sao vẫn được nghe giọng em qua điện thoại nhỉ</p>
+</div>
+
+<!-- Hộp quà 48 -->
+<div class="gift-box" id="gift-box-48" onclick="toggleContent(48)">
+    <div class="label" id="label-48">48 nè</div>
+    <img id="gift-img-48" src="image48.jpg" alt="Hình ảnh 48"> <!-- Thay 'image48.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-48">Ngày em có chuyện với bạn. May sao anh bay vào kịp. Không thì a không biết làm sao. Đây của người ta, bao giờ đến lượt mình em nhỉ</p>
+</div>
+
+<!-- Hộp quà 49 -->
+<div class="gift-box" id="gift-box-49" onclick="toggleContent(49)">
+    <div class="label" id="label-49">49 rồi</div>
+    <img id="gift-img-49" src="image49.jpg" alt="Hình ảnh 49"> <!-- Thay 'image49.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-49">Hehe may sao bạn anh cũng là bạn em, người quen của hai đứa đều biết nhau. Lễ tốt nghiệp của a Trung gia đình có 1 đại diện ròi kaka</p>
+</div>
+
+<!-- Hộp quà 50 -->
+<div class="gift-box" id="gift-box-50" onclick="toggleContent(50)">
+    <div class="label" id="label-50">Ấn vào đây <br> nè cậu</div>
+    <img id="gift-img-50" src="image50.jpg" alt="Hình ảnh 50"> <!-- Thay 'image50.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-50">Ngày này năm ngoái nè. Nhờ Giáp mãi để mua bánh kỉ niệm 4 năm bên nhau. Nhưng nhìn bánh hơi tồ xíu. Không sao quan trọng tấm lòng em nhỉ</p>
+</div>
+
+<!-- Hộp quà 51 -->
+<div class="gift-box" id="gift-box-51" onclick="toggleContent(51)">
+    <div class="label" id="label-51">Ấn vào đây <br> nè cậu</div>
+    <img id="gift-img-51" src="image51.jpg" alt="Hình ảnh 51"> <!-- Thay 'image51.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-51">Chưa kịp bên nhau lại phải đi em nhỉ. Anh vội chuẩn bị đồ đi công tác, em chuẩn bị về quê bay sang nước ngoài. Hai đứa bận rộn. May sao ăn Googi như ý nguyện em nhỉ</p>
+</div>
+
+<!-- Hộp quà 52 -->
+<div class="gift-box" id="gift-box-52" onclick="toggleContent(52)">
+    <div class="label" id="label-52">52 rồi nè</div>
+    <img id="gift-img-52" src="image52.jpg" alt="Hình ảnh 52"> <!-- Thay 'image52.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-52">Vivu Hà Nội trước khi em bay. Ngày hôm ấy sao mà quay cuồng, nhanh đến thế. Tiễn em bay xong a vào chuẩn bị đồ đi công tác. Xong làm quần quật, thấm thoắt nhanh thật. Còn gần 1 năm nữa là em về rồi</p>
+</div>
+
+<!-- Hộp quà 53 -->
+<div class="gift-box" id="gift-box-53" onclick="toggleContent(53)">
+    <div class="label" id="label-53">53 nè</div>
+    <img id="gift-img-53" src="image53.jpg" alt="Hình ảnh 53"> <!-- Thay 'image53.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-53">NVừa yêu nước vừa yêu anhhhhhhhh</p>
+</div>
+
+<!-- Hộp quà 54 -->
+<div class="gift-box" id="gift-box-54" onclick="toggleContent(54)">
+    <div class="label" id="label-54">54 rồi nè</div>
+    <img id="gift-img-54" src="image54.jpg" alt="Hình ảnh 54"> <!-- Thay 'image54.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-54">Ngày thấy em như này anh cũng chẳng còn tâm trạng để làm việc. Nhìn em lòng anh rối bời. Những lúc như này anh cảm thấy bất lực vô cùng</p>
+</div>
+
+<!-- Hộp quà 55 -->
+<div class="gift-box" id="gift-box-55" onclick="toggleContent(55)">
+    <div class="label" id="label-55">Ấn vào đây <br> nè cậu</div>
+    <img id="gift-img-55" src="image55.jpg" alt="Hình ảnh 55"> <!-- Thay 'image55.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-55">Nội dung hộp quà 55. Đây là một đoạn văn bản chứa khoảng 3 dòng với mỗi dòng khoảng 10 chữ.</p>
+</div>
+<!-- Hộp quà 56 -->
+<div class="gift-box" id="gift-box-56" onclick="toggleContent(56)">
+    <div class="label" id="label-56">gần xong rồi nè cậu</div>
+    <img id="gift-img-56" src="image56.jpg" alt="Hình ảnh 56"> <!-- Thay 'image56.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-56">Cậu cắt tóc này nhìn cute thật mà. Tớ bảo cậu lại cứ tưởng là đùa cơ.</p>
+</div>
+
+<!-- Hộp quà 57 -->
+<div class="gift-box" id="gift-box-57" onclick="toggleContent(57)">
+    <div class="label" id="label-57">Cuối cùng nè</div>
+    <img id="gift-img-57" src="image57.jpg" alt="Hình ảnh 57"> <!-- Thay 'image57.jpg' bằng đường dẫn ảnh của bạn -->
+    <p id="gift-text-57">Mãi bên nhau bạn nhé</p>
+</div>
+        </div>
+    </div>
+
+   <!-- Phần cuối -->
+<div class="footer" style="padding: 20px 0; background-color: #333; color: white;">
+    <p style="text-align: center; font-size: 1.2em; line-height: 1.6;">
+        Vậy là mình bên nhau 5 năm rồi em nhỉ. Đây chỉ là một phần nhỏ trong chặng đường mà hai đứa cùng nhau trải qua trong 5 năm vừa qua mà anh không thể nào quên.
+    </p>
+    <p style="text-align: center; font-size: 1.2em; line-height: 1.6;">
+        5 năm một nhiệm kỳ, em nhỉ? Hai đứa cùng nhau bước tiếp em nhé. Dù có chuyện gì xảy ra, chúng ta cũng không được buông tay nhau nhé em.
+    </p>
+    <div style="text-align: center; margin-top: 30px;">
+        <p style="font-size: 1.5em; font-weight: bold; color: #FF66B2;">
+            ANH YÊU EM
+        </p>
+        <p style="font-size: 1.1em; font-style: italic; color: #FF66B2;">
+            (15/06/2020 - 15/06/2025)
+        </p>
+    </div>
+</div>
+
+    <script>
+        // Hàm mở/đóng nội dung khi nhấn vào hộp quà
+        function toggleContent(giftNumber) {
+            // Lấy phần chú thích bên ngoài (label)
+            const label = document.getElementById('label-' + giftNumber);
+            const img = document.getElementById('gift-img-' + giftNumber);
+            const text = document.getElementById('gift-text-' + giftNumber);
+
+            // Kiểm tra xem hộp quà đã được mở hay chưa
+            if (img.style.display === 'none' || img.style.display === '') {
+                // Hiển thị ảnh và nội dung
+                img.style.display = 'block';
+                text.style.display = 'block';
+                label.style.display = 'none'; // Ẩn dòng "Ấn vào đây nè cậu"
+            } else {
+                // Đóng hộp quà
+                img.style.display = 'none';
+                text.style.display = 'none';
+                label.style.display = 'block'; // Hiển thị lại dòng "Ấn vào đây nè cậu"
+            }
+        }
+    </script>
+
+</body>
+</html>
